@@ -10,6 +10,12 @@
 
 ---
 
+## 📊 v3 프로세스 비주얼 다이어그램
+
+![v3 Code Flow Diagram](v3_code_flow_diagram.png)
+
+---
+
 ## 1. AI 협업 — 공식 가이드라인 + 커뮤니티 인사이트
 
 ### 🏛️ College Board 공식 규정 (2025-2026)
