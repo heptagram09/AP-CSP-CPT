@@ -8,9 +8,13 @@ def add_task(name, priority):
 def filter_tasks(priority):
     result = []
     for task in todo_list:
-        if priority == "all":
-            result.append(task)
-        elif task["priority"] == priority:
+        if priority == "done":
+            if task["done"]:
+                result.append(task)
+        elif priority == "all":
+            if not task["done"]:
+                result.append(task)
+        elif task["priority"] == priority and not task["done"]:
             result.append(task)
     return result
 
@@ -46,20 +50,29 @@ while True:
 
     if choice == "A":
         name = input("Task name: ")
-        priority = input("Priority (high/medium/low): ")
-        if priority not in ["high", "medium", "low"]:
-            print("Invalid priority.")
+        if name == "":
+            print("Please write a name.")
         else:
-            add_task(name, priority)
+            priority = input("Priority (high/medium/low): ")
+            if priority not in ["high", "medium", "low"]:
+                print("Invalid priority.")
+            else:
+                add_task(name, priority)
 
     elif choice == "S":
-        priority = input("Filter (all/high/medium/low): ")
+        priority = input("Filter (all/high/medium/low/done): ")
         show_tasks(priority)
 
     elif choice == "D":
         name = input("Task name to mark done: ")
-        mark_done(name)
+        if name == "":
+            print("Please write a task name.")
+        else:
+            mark_done(name)
 
     elif choice == "F":
         print("See you later..")
         break
+
+    else:
+        print("Please write the correct value [A, S, D, F]")
