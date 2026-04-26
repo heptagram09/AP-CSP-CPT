@@ -34,7 +34,7 @@ def mark_done(task_name):
     for task in todo_list:
         if task["name"] == task_name:
             task["done"] = True
-            print(task_name + " marked as done!")
+            print("'" + task_name + "'" + " marked as done!")
             return
     print("Error: " + task_name + " not found.")
 
