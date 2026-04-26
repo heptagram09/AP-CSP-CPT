@@ -61,7 +61,10 @@ while True:
 
     elif choice == "S":
         priority = input("Filter (all/high/medium/low/done): ")
-        show_tasks(priority)
+        if priority not in ["all", "high", "medium", "low", "done"]:
+            print("Please write : [ all / high / medium / low / done ]")
+        else:
+            show_tasks(priority)
 
     elif choice == "D":
         name = input("Task name to mark done: ")
@@ -75,4 +78,4 @@ while True:
         break
 
     else:
-        print("Please write the correct value [A, S, D, F]")
+        print("Please write : [ A / S / D / F]")
