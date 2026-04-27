@@ -1,4 +1,4 @@
-LEVELS = ["high", "medium", "low"]
+priority_list = ["high", "medium", "low"]
 todo_list = []
 
 def add_task(task_list, task_name, priority):
@@ -41,14 +41,14 @@ def mark_done(task_list, task_num):
 def get_priority():
     while True:
         p = input("Priority (high/medium/low): ").lower()
-        if p in LEVELS:
+        if p in priority_list:
             return p
         print("Invalid.")
 
 def get_filter():
     while True:
         p = input("Filter (all/high/medium/low): ").lower()
-        if p == "all" or p in LEVELS:
+        if p == "all" or p in priority_list:
             return p
         print("Invalid.")
 
