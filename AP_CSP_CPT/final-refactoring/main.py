@@ -1,112 +1,84 @@
-VALID_PRIORITIES = ["high", "medium", "low"]
-
+LEVELS = ["high", "medium", "low"]
 todo_list = []
 
-
 def add_task(task_list, task_name, priority):
-    task_list.append({
-        "name": task_name,
+    task = {
+        "task_name": task_name,
         "priority": priority,
         "done": False
-    })
-
+    }
+    task_list.append(task)
     return "Added: [" + priority + "] " + task_name
 
-
-def get_tasks_by_priority(task_list, selected_priority):
-    matching_tasks = []
-
+def filter_tasks(task_list, selected_priority):
+    filtered_list = []
     for task in task_list:
         if selected_priority == "all" or task["priority"] == selected_priority:
-            matching_tasks.append(task)
+            filtered_list.append(task)
+    return filtered_list
 
-    return matching_tasks
-
-
-def display_tasks(task_list):
+def show_tasks(task_list):
     if len(task_list) == 0:
-        print("No tasks found.")
+        print("\n[Empty]")
         return
 
-    for index in range(len(task_list)):
-        task = task_list[index]
-
+    print("\n--- Tasks ---")
+    for i in range(len(task_list)):
+        task = task_list[i]
         if task["done"]:
             status = "DONE"
         else:
             status = "TODO"
+        
+        print(str(i + 1) + ". [" + task["priority"] + "] " + task["task_name"] + " (" + status + ")")
 
-        print(str(index + 1) + ". [" + task["priority"] + "] " + task["name"] + " - " + status)
+def mark_done(task_list, task_num):
+    if task_num >= 1 and task_num <= len(task_list):
+        task_list[task_num - 1]["done"] = True
+        return "Completed: " + task_list[task_num - 1]["task_name"]
+    return "Error: Invalid number."
 
-
-def mark_task_done(task_list, task_number):
-    if task_number >= 1 and task_number <= len(task_list):
-        task_list[task_number - 1]["done"] = True
-        return "Marked as done: " + task_list[task_number - 1]["name"]
-
-    return "Error: task number not found."
-
-
-def get_valid_priority():
+def get_priority():
     while True:
-        priority = input("Priority (high/medium/low): ").lower()
+        p = input("Priority (high/medium/low): ").lower()
+        if p in LEVELS:
+            return p
+        print("Invalid.")
 
-        if priority in VALID_PRIORITIES:
-            return priority
-
-        print("Please enter high, medium, or low.")
-
-
-def get_filter_choice():
+def get_filter():
     while True:
-        selected_priority = input("Filter (all/high/medium/low): ").lower()
+        p = input("Filter (all/high/medium/low): ").lower()
+        if p == "all" or p in LEVELS:
+            return p
+        print("Invalid.")
 
-        if selected_priority == "all" or selected_priority in VALID_PRIORITIES:
-            return selected_priority
-
-        print("Please enter all, high, medium, or low.")
-
-
-def get_task_number():
+def get_num():
     while True:
         try:
-            task_number = int(input("Task number to mark done: "))
-            return task_number
+            return int(input("Enter number: "))
         except ValueError:
-            print("Please enter a number.")
+            print("Enter a number.")
 
-
-print("=== To-Do List App ===")
+# Main
+print("=== PRIORITY PLANNER ===")
 
 while True:
-    print("")
-    print("1. Add task")
-    print("2. Show tasks")
-    print("3. Mark task done")
-    print("4. Quit")
+    print("\n1.Add 2.Show 3.Done 4.Exit")
+    cmd = input("Select: ")
 
-    choice = input("Choose: ")
+    if cmd == "1":
+        name = input("Task: ")
+        p = get_priority()
+        print(add_task(todo_list, name, p))
 
-    if choice == "1":
-        task_name = input("Task name: ")
-        priority = get_valid_priority()
-        message = add_task(todo_list, task_name, priority)
-        print(message)
+    elif cmd == "2":
+        p = get_filter()
+        show_tasks(filter_tasks(todo_list, p))
 
-    elif choice == "2":
-        selected_priority = get_filter_choice()
-        matching_tasks = get_tasks_by_priority(todo_list, selected_priority)
-        display_tasks(matching_tasks)
+    elif cmd == "3":
+        show_tasks(todo_list)
+        print(mark_done(todo_list, get_num()))
 
-    elif choice == "3":
-        display_tasks(todo_list)
-        task_number = get_task_number()
-        message = mark_task_done(todo_list, task_number)
-        print(message)
-
-    elif choice == "4":
-        print("Goodbye!")
+    elif cmd == "4":
+        print("Bye!")
         break
-
-    else:
-        print("Please choose 1, 2, 3, or 4.")
